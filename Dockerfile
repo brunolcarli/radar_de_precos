@@ -19,7 +19,7 @@ RUN pip install \
     --disable-pip-version-check \
     -r requirements-api.txt
 
-COPY --chown=app:app api_olx_carros.py dashboard_olx.html ./
+COPY --chown=app:app dashboard_olx.py dashboard_olx.html ./
 
 USER app
 
