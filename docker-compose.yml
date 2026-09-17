@@ -29,7 +29,7 @@ services:
       - "-"
       - --error-logfile
       - "-"
-      - api_olx_carros:app
+      - dashboard_olx:app
 
     healthcheck:
       test:
