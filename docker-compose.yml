@@ -1,0 +1,31 @@
+services:
+  cars-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cars-api
+    restart: unless-stopped
+    init: true
+    ports:
+      # Seguro para uso atrás de Nginx/Caddy na VPS.
+      - "127.0.0.1:${APP_PORT:-5000}:5000"
+    env_file:
+      - .env
+    extra_hosts:
+      # Permite acessar um ClickHouse instalado diretamente na VPS Linux.
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=5)"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
